@@ -1,6 +1,3 @@
-// Multi-threaded DPI Engine - Fixed Version
-// Architecture: Reader -> LB threads -> FP threads -> Output
-
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -47,7 +44,8 @@ public:
                                   [this] { return !queue_.empty() || shutdown_; })) {
             return std::nullopt;
         }
-        if (queue_.empty()) return std::nullopt;
+
+        if(queue_.empty()) return std::nullopt;
         T item = std::move(queue_.front());
         queue_.pop();
         not_full_.notify_one();
